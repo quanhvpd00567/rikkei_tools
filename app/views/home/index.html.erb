@@ -1,0 +1,42 @@
+<div class="row">
+  <div>
+    <form class="form-inline">
+      <div class="form-group mx-sm-3 mb-2">
+        <label for="year">Choose a year </label>
+        <input type="text" class="form-control" id="year" value="<%= Time.now.year %>" placeholder="Choose a year">
+      </div>
+      <button type="button" id="btn" class="btn btn-primary mb-2">Confirm identity</button>
+    </form>
+    <table class="table">
+      <thead>
+      <tr>
+        <th class="text-center">No.</th>
+        <th class="text-center">Employee name</th>
+        <th class="text-center">Role</th>
+        <th class="text-center">Level</th>
+        <%- (1..12).each do |month| %>
+          <th class="text-center">Month <%= month %></th>
+        <%- end %>
+      </tr>
+      </thead>
+      <tbody>
+      <tr>
+        <th scope="row">1</th>
+        <td>Mark</td>
+        <td>Otto</td>
+        <td>@mdo</td>
+        <%- (1..12).each do |month| %>
+          <td class="text-center">
+            <select>
+              <option>Free time</option>
+              <%- @projects.each do |project|  %>
+              <option value="<%= project.id %>"><%= project.name %></option>
+              <%- end %>
+            </select>
+          </td>
+        <%- end %>
+      </tr>
+      </tbody>
+    </table>
+  </div>
+</div>

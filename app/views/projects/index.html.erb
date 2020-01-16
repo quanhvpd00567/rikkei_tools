@@ -1,0 +1,26 @@
+<div class="container">
+  <div class="row">
+    <table class="table">
+      <thead>
+        <tr>
+          <th scope="col">No.</th>
+          <th scope="col">Project bane</th>
+          <th scope="col"></th>
+        </tr>
+      </thead>
+      <tbody>
+      <%- @projects.each.with_index(1) do |project, index|  %>
+        <tr>
+          <th scope="row"><%= index %></th>
+          <td><%= project.name %></td>
+          <td>
+            <%= link_to "Edit", edit_project_path(project) %>
+          </td>
+        </tr>
+        <%- end %>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+
