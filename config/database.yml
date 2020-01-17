@@ -11,11 +11,14 @@
 #
 default: &default
   adapter: mysql2
-  encoding: utf8mb4
+  encoding: utf8
+  # pool: <%= ENV.fetch("RAILS_MAX_THREADS") { 5 } %>
   username: root
+  password: root
+  socket: /var/run/mysqld/mysqld.sock
+  timeout: 5000
+  host: 127.0.0.1
   port: 3306
-  password: 123456
-  host: localhost
 
 development:
   <<: *default

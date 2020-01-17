@@ -1,0 +1,110 @@
+<h1>Filter Screen</h1>
+<div class="row">
+  <div>
+    <%= form_tag(search_path, :method => "get", id: "search-form", class: "form-inline") do  |f| %>
+        <%# <div class="form-group mx-sm-3 mb-2">
+            <label for="year">Employee code: </label>
+            <%= text_field_tag :code, nil, class: 'form-control', style: 'with: 150%;', placeholder: 'Ento Employee Code', value: @name %>
+        <%# </div>  %>
+      <div class="form-group mx-sm-3 mb-2">
+        <label for="year">Year: </label>
+        <%= text_field_tag :year, nil, class: 'form-control', style: 'with: 150%;', placeholder: 'Choose a year', value: @year %>
+      </div>
+      <div class="form-group mx-sm-3 mb-2">
+        <label for="year">Role:</label>
+        <select name="role" class>
+            <option value="">ALL</option>
+            <% @roles.each do |role| %>
+                <option value="<%= role.last %>"
+                <% if @role == role.last.to_i %>
+                            selected
+                          <%- end %>>
+                            <%= role.first %>
+                </option>
+            <% end %>
+        </select>
+      </div>
+      <div class="form-group mx-sm-3 mb-2">
+        <label for="year">Level: </label>
+        <select name="level" class>
+            <option value="">ALL</option>
+            <% @levels.each do |level| %>
+                <option value="<%= level.last %>"
+                <% if @level == level.last.to_i %>
+                            selected
+                          <%- end %>>
+                            <%= level.first %>
+                </option>
+            <% end %>
+        </select>
+      </div>
+      <div class="form-group mx-sm-3 mb-2">
+        <label for="project">project: </label>
+        <select name="project" class>
+            <option value="">Free time</option>
+            <% @projects.each do |project| %>
+                <option value="<%= project.id %>"
+                <% if @project == project.id %>
+                            selected
+                          <%- end %>>
+                            <%= project.name %>
+                </option>
+            <% end %>
+        </select>
+      </div>
+      <div class="form-group mx-sm-3 mb-2">
+        <label for="month">Month start: </label>
+        <%= text_field_tag :fromMonth, nil, class: 'form-control', style: 'with: 150%;', placeholder: 'Choose a year', id: 'fromMonth', value: @fromMonth %>
+      </div>
+      <div class="form-group mx-sm-3 mb-2">
+        <label for="year">Month end: </label>
+        <%= text_field_tag :toMonth, nil, class: 'form-control', style: 'with: 150%;', placeholder: 'Choose a year', id: 'toMonth', value: @toMonth %>
+      </div>
+      
+      <button id="filter-btn" class='btn btn-primary' type="submit">Filter</button>
+    <% end %>
+    <table class="table">
+      <thead>
+      <tr>
+        <th class="text-center">No.</th>
+        <th class="text-center">Employee name</th>
+        <th class="text-center">Role</th>
+        <th class="text-center">Level</th>
+        <%- (@fromMonth..@toMonth).each do |month| %>
+          <th class="text-center">Month <%= month %></th>
+        <%- end %>
+      </tr>
+      </thead>
+      <tbody>
+          <% @employees.each do |emp, index| %>
+            <tr>
+              <th scope="row"><%=emp.code %></th>
+              <td><%= emp.name %></td>
+              <td><%= emp.role %></td>
+              <td><%= emp.level %></td>
+              <%- (@fromMonth..@toMonth).each do |month| 
+                  style = ""
+                  @workByYear.each do |work|
+                    if (work.month == month && emp.id == work.employee_id)
+                      if work.project_id.present?
+                        style = "background-color: aqua;"
+                      else
+                        style = "background-color: coral;"
+                      end 
+                    end
+                  end %>
+                  <td class="text-center" style="<%= style %>">
+                      <%- 
+                          @workByYear.each do |work|
+                            if (work.month == month && emp.id == work.employee_id) %>
+                              <%= work.project_id.present? ? (@projects.where(id: @project).first.name) : "Free time" %>
+                            <% end %>
+                      <%end%>
+                  </td>
+              <%- end %>
+            </tr>
+          <% end %>
+    </table>
+
+  </div>
+</div>
